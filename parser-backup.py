@@ -7,12 +7,13 @@
 
 def parse(equation):
     allowed = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/", "."]
-    notAllowed = ["+", "-", "=", "*"]
+    notAllowed = ["+", "-", "=", "*", "(", ")"]
     numbers = [""]
     row = [0]
     variables = []
     start = False
     fractionPos = -1
+    firstDigitPos = -1
     i = 0
     equation += "|"
 
@@ -34,7 +35,7 @@ def parse(equation):
             if (equation[x] not in notAllowed):
                 #If there is no number in front of a variable, put a 1
                 if (numbers[i] == ""):
-                    numbers.append("")
+                    numbers[i] = "1"
                     
                 #As long as it is NOT our special character
                 if (equation[x] != "|"):
@@ -46,7 +47,7 @@ def parse(equation):
                     
                 #When there is a variable, that means the number before it, is already entered, so now simplfy if fractions
                 if (fractionPos >= 0):
-                    row[i] = float(equation[firstDigitPos:fractionPos]) / float(equation[fractionPos+1:x])
+                    row[i] = float(equation[firstDigitPos:fractionPos]) / float(equation[fractionPos+1:x-1])
                     #Reset frac position
                     fractionPos = -1
                 else:
@@ -54,13 +55,14 @@ def parse(equation):
                     row[i] = float(numbers[i])
           
                 #If negative add it to the number
-                if (equation[firstDigitPos-1] == "-"):
+                if (firstDigitPos >= 0 and equation[firstDigitPos-1] == "-" or equation[x-1] == "-"):
                     row[i] = -1 * row[i]
                 #Increment for us to get the numbers list ready to store next number
                 i += 1
                 
                 #Reset start since this is only ran when we encounter a variable... get ready for next start
                 start = False
+                firstDigitPos = -1
     
     print(variables)
     print(numbers)
