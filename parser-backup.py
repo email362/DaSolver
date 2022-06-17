@@ -47,7 +47,7 @@ def parse(equation):
                     
                 #When there is a variable, that means the number before it, is already entered, so now simplfy if fractions
                 if (fractionPos >= 0):
-                    row[i] = float(equation[firstDigitPos:fractionPos]) / float(equation[fractionPos+1:x-1])
+                    row[i] = float(equation[firstDigitPos:fractionPos]) / float(equation[fractionPos+1:x])
                     #Reset frac position
                     fractionPos = -1
                 else:
