@@ -2,18 +2,45 @@
 #---------------------------------------------------------------------
 ###CURRENTLY WORKING ON:###
 #-Distributing?
-#-Sorting variables in alphabetical order
+#-Sorting variables in alphabetical order - FINISHED
+#-Combine like terms
 #---------------------------------------------------------------------
+
+def sort(variables, row):
+    alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    sortedVariables = []
+    save = ""
+    i = 0
+    
+    #Loop through each letter in alphabet
+    for x in alphabet:
+        #If the letter in the alphabet is in our variables
+        if (x in variables):
+            #Add it to sortedVariables list
+            sortedVariables.append(x)
+            if (sortedVariables[i] != variables[i]):
+                #Find the position of the wrong order letter
+                variablesPos = variables.index(sortedVariables[i])
+                #Swap the numbers corresponding to the letters
+                save = row[i]
+                row[i] = row[variablesPos]
+                row[variablesPos] = save
+                
+                #Swap the variables as well
+                save = variables[i]
+                variables[i] = variables[variablesPos]
+                variables[variablesPos] = save
+
+            i += 1
+    
 
 def parse(equation):
     allowed = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/", "."]
     notAllowed = ["+", "-", "=", "*", "(", ")"]
     numbers = [""]
     row = [0]
-    variables = []
-    start = False
-    fractionPos = -1
-    firstDigitPos = -1
+    variables  = []
+    fractionPos = firstDigitPos = -1
     i = 0
     equation += "|"
 
@@ -27,8 +54,7 @@ def parse(equation):
             #Add the digit to the number
             numbers[i] += equation[x]
             #If it is the first digit, we save the position of that digit
-            if (start == False):
-                start = True
+            if (firstDigitPos == -1):
                 firstDigitPos = x
         elif (equation[x] not in allowed):
             #If it is a variable
@@ -63,9 +89,11 @@ def parse(equation):
                 #Reset start since this is only ran when we encounter a variable... get ready for next start
                 start = False
                 firstDigitPos = -1
-    
+                
+        
+     #Sort variables in alphabetical order with same changes applied to their respective number
+    sort(variables, row)
     print(variables)
-    print(numbers)
     return row
 
 #------------------------------------------------
