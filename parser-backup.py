@@ -86,8 +86,7 @@ def parse(equation):
                 #Increment for us to get the numbers list ready to store next number
                 i += 1
                 
-                #Reset start since this is only ran when we encounter a variable... get ready for next start
-                start = False
+                #Reset firstDigitPos since this is only ran when we encounter a variable meaning that the number is done
                 firstDigitPos = -1
                 
         
